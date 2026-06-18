@@ -1,0 +1,2755 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nathiel Games — Araranguá SC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #05050A;
+      --bg2: #0C0C14;
+      --bg3: #111120;
+      --green: #00FF87;
+      --green2: #00C96E;
+      --blue: #00C6FF;
+      --red: #FF4655;
+      --gold: #FFD700;
+      --text: #F0F0F8;
+      --muted: #8888AA;
+      --border: rgba(0, 255, 135, 0.15);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 16px;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--green);
+      border-radius: 2px;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      height: 70px;
+      background: rgba(5, 5, 10, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      transition: border-color 0.3s;
+    }
+
+    .nav-logo {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: 20px;
+      color: var(--green);
+      text-decoration: none;
+      letter-spacing: 2px;
+    }
+
+    .nav-logo span {
+      color: var(--text);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: color 0.2s;
+      position: relative;
+      padding-bottom: 4px;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--green);
+      transform: scaleX(0);
+      transition: transform 0.2s;
+      border-radius: 2px;
+    }
+
+    .nav-links a:hover {
+      color: var(--green);
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+      transform: scaleX(1);
+    }
+
+    .nav-links a.active {
+      color: var(--green);
+    }
+
+    .nav-cta {
+      background: var(--green) !important;
+      color: #000 !important;
+      padding: 8px 20px;
+      border-radius: 4px;
+      font-weight: 700 !important;
+    }
+
+    .nav-cta::after {
+      display: none !important;
+    }
+
+    .nav-cta:hover {
+      background: var(--green2) !important;
+      color: #000 !important;
+    }
+
+    /* ── HAMBURGUER ── */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 6px;
+      z-index: 110;
+    }
+
+    .nav-hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+
+    .nav-hamburger.open span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .nav-hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .nav-hamburger.open span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    .nav-drawer {
+      display: none;
+      position: fixed;
+      top: 70px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(5, 5, 10, 0.97);
+      backdrop-filter: blur(20px);
+      z-index: 99;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .nav-drawer.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .nav-drawer a {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-drawer a:hover {
+      color: var(--green);
+    }
+
+    .nav-drawer .drawer-cta {
+      background: var(--green);
+      color: #000 !important;
+      padding: 14px 40px;
+      border-radius: 4px;
+      margin-top: 8px;
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 100px 5% 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      width: 100%;
+      gap: 48px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0, 255, 135, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 135, 0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gridMove 20s linear infinite;
+    }
+
+    @keyframes gridMove {
+      0% {
+        transform: translateY(0);
+      }
+
+      100% {
+        transform: translateY(60px);
+      }
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 255, 135, 0.12) 0%, transparent 70%);
+      top: -100px;
+      left: -200px;
+      pointer-events: none;
+    }
+
+    .hero-glow2 {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 198, 255, 0.08) 0%, transparent 70%);
+      bottom: 0;
+      right: 10%;
+      pointer-events: none;
+    }
+
+    /* ── HERO LEFT ── */
+    .hero-content {
+      max-width: 600px;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 28px;
+      animation: fadeDown 0.6s ease both;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 255, 135, 0.1);
+      border: 1px solid rgba(0, 255, 135, 0.3);
+      border-radius: 30px;
+      padding: 6px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--green);
+      width: fit-content;
+    }
+
+    .hero-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .hero-badge-address {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 198, 255, 0.07);
+      border: 1px solid rgba(0, 198, 255, 0.2);
+      border-radius: 30px;
+      padding: 6px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: var(--blue);
+      text-decoration: none;
+      width: fit-content;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .hero-badge-address:hover {
+      background: rgba(0, 198, 255, 0.13);
+      border-color: rgba(0, 198, 255, 0.4);
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1)
+      }
+
+      50% {
+        opacity: 0.5;
+        transform: scale(1.4)
+      }
+    }
+
+    .hero-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(42px, 7vw, 80px);
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 8px;
+      animation: fadeDown 0.7s 0.1s ease both;
+    }
+
+    .hero-title .green {
+      color: var(--green);
+    }
+
+    .hero-title .line2 {
+      display: block;
+      color: var(--muted);
+      font-size: 0.4em;
+      letter-spacing: 4px;
+      margin-top: 10px;
+      text-transform: uppercase;
+    }
+
+    .hero-sub {
+      font-size: 17px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin: 24px 0 40px;
+      max-width: 480px;
+      animation: fadeDown 0.7s 0.2s ease both;
+      font-weight: 400;
+    }
+
+    .hero-sub strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      animation: fadeDown 0.7s 0.3s ease both;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--green);
+      color: #000;
+      padding: 14px 32px;
+      border-radius: 4px;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 1px;
+      text-decoration: none;
+      transition: all 0.2s;
+      text-transform: uppercase;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background: var(--green2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0, 255, 135, 0.3);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--text);
+      padding: 14px 32px;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 1px;
+      text-decoration: none;
+      transition: all 0.2s;
+      text-transform: uppercase;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .btn-map {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--blue);
+      padding: 14px 24px;
+      border-radius: 4px;
+      border: 1px solid rgba(0, 198, 255, 0.25);
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 1px;
+      text-decoration: none;
+      transition: all 0.2s;
+      text-transform: uppercase;
+    }
+
+    .btn-map:hover {
+      border-color: var(--blue);
+      background: rgba(0, 198, 255, 0.07);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 40px;
+      margin-top: 52px;
+      animation: fadeDown 0.7s 0.4s ease both;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      text-align: left;
+    }
+
+    .stat-num {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--green);
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    /* ── HERO RIGHT — VITRINE ── */
+    .hero-vitrine {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      animation: fadeDown 0.7s 0.2s ease both;
+      width: 100%;
+      max-width: 540px;
+      justify-self: end;
+    }
+
+    .vitrine-main {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 22px 20px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      min-height: 130px;
+      width: 100%;
+    }
+
+    .vitrine-main::before {
+      content: '';
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(0, 255, 135, 0.10) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .vitrine-badge-tag {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: var(--red);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 3px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: background 0.3s;
+    }
+
+    .vitrine-icon {
+      font-size: 60px;
+      line-height: 1;
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 12px rgba(0, 255, 135, 0.25));
+      animation: floatIcon 3s ease-in-out infinite;
+      transition: all 0.3s;
+    }
+
+    @keyframes floatIcon {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    .vitrine-info {
+      flex: 1;
+    }
+
+    .vitrine-cat {
+      font-size: 11px;
+      color: var(--green);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .vitrine-name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 17px;
+      font-weight: 900;
+      color: var(--text);
+      line-height: 1.1;
+      margin-bottom: 8px;
+      transition: all 0.3s;
+    }
+
+    .vitrine-price {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--green);
+      margin-bottom: 10px;
+    }
+
+    .vitrine-wpp {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 255, 135, 0.1);
+      border: 1px solid rgba(0, 255, 135, 0.3);
+      color: var(--green);
+      padding: 6px 14px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: background 0.2s;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+
+    .vitrine-wpp:hover {
+      background: rgba(0, 255, 135, 0.2);
+    }
+
+    .vitrine-dots {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+    }
+
+    .v-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+      cursor: pointer;
+      transition: all 0.25s;
+      border: none;
+      padding: 0;
+    }
+
+    .v-dot.active {
+      background: var(--green);
+      width: 18px;
+      border-radius: 3px;
+    }
+
+    .vitrine-mini-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+    }
+
+    .mini-card {
+      background: var(--bg2);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 8px;
+      padding: 14px 10px;
+      text-align: center;
+      transition: border-color 0.2s, transform 0.2s;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mini-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--green);
+      transform: scaleX(0);
+      transition: transform 0.2s;
+    }
+
+    .mini-card:hover {
+      border-color: rgba(0, 255, 135, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .mini-card:hover::after {
+      transform: scaleX(1);
+    }
+
+    .mini-icon {
+      font-size: 26px;
+      margin-bottom: 6px;
+    }
+
+    .mini-label {
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .mini-val {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .vitrine-status-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .status-card {
+      background: var(--bg2);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 8px;
+      padding: 13px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      animation: pulseDot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulseDot {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.4;
+        transform: scale(1.5);
+      }
+    }
+
+    .status-dot.green {
+      background: var(--green);
+      box-shadow: 0 0 8px rgba(0, 255, 135, 0.5);
+    }
+
+    .status-dot.blue {
+      background: var(--blue);
+      box-shadow: 0 0 8px rgba(0, 198, 255, 0.5);
+    }
+
+    .status-text-label {
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+
+    .status-text-val {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .vitrine-ticker {
+      background: var(--bg2);
+      border: 1px solid rgba(0, 255, 135, 0.1);
+      border-radius: 6px;
+      padding: 10px 14px;
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .ticker-label-top {
+      font-size: 10px;
+      color: var(--green);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .ticker-track {
+      display: flex;
+      gap: 32px;
+      width: max-content;
+      animation: tickerAnim 25s linear infinite;
+      white-space: nowrap;
+    }
+
+    @keyframes tickerAnim {
+      0% {
+        transform: translate3d(0, 0, 0);
+      }
+
+      100% {
+        transform: translate3d(-50%, 0, 0);
+      }
+    }
+
+    .ticker-item {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      display: inline-block;
+    }
+
+    .ticker-item span {
+      color: var(--green);
+    }
+
+    /* ── SECTION SHARED ── */
+    section {
+      padding: 100px 5%;
+      position: relative;
+    }
+
+    .section-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 900;
+      margin-bottom: 16px;
+      line-height: 1.1;
+    }
+
+    .section-sub {
+      font-size: 17px;
+      color: var(--muted);
+      max-width: 580px;
+      line-height: 1.6;
+      margin-bottom: 60px;
+      font-weight: 400;
+    }
+
+    /* ── PRODUCTS ── */
+    #produtos {
+      background: var(--bg2);
+    }
+
+    .cat-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+
+    .cat-tab {
+      padding: 8px 20px;
+      border-radius: 4px;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--muted);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+    }
+
+    .cat-tab:hover,
+    .cat-tab.active {
+      background: var(--green);
+      color: #000;
+      border-color: var(--green);
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .product-card {
+      background: var(--bg3);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .product-card:hover {
+      border-color: var(--green);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0, 255, 135, 0.1);
+    }
+
+    .product-img {
+      width: 100%;
+      height: 180px;
+      background: linear-gradient(135deg, #111120, #1a1a30);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product-badge-tag {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: var(--red);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 3px;
+      letter-spacing: 1px;
+    }
+
+    .product-info {
+      padding: 16px;
+    }
+
+    .product-name {
+      font-weight: 600;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+
+    .product-cat {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .product-price-note {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 2px;
+    }
+
+    .product-price {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--green);
+      margin-bottom: 12px;
+    }
+
+    .product-buy {
+      display: block;
+      width: 100%;
+      background: transparent;
+      border: 1px solid rgba(0, 255, 135, 0.4);
+      color: var(--green);
+      padding: 8px;
+      border-radius: 4px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+    }
+
+    .product-buy:hover {
+      background: var(--green);
+      color: #000;
+    }
+
+    /* ── SERVICES ── */
+    #servicos {
+      background: var(--bg);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+
+    .service-card {
+      background: var(--bg2);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 8px;
+      padding: 36px 28px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--green);
+      transform: scaleX(0);
+      transition: transform 0.3s;
+    }
+
+    .service-card:hover {
+      border-color: rgba(0, 255, 135, 0.3);
+      transform: translateY(-4px);
+    }
+
+    .service-card:hover::after {
+      transform: scaleX(1);
+    }
+
+    .service-icon {
+      font-size: 42px;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .service-name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .service-desc {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 24px;
+      font-weight: 400;
+    }
+
+    .service-price {
+      color: var(--green);
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+
+    /* ── PC BUILDER ── */
+    #pc-gamer {
+      background: var(--bg2);
+    }
+
+    .builder-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .builder-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .step-block {
+      background: var(--bg3);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 8px;
+      padding: 24px;
+    }
+
+    .step-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 8px;
+    }
+
+    .step-question {
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .step-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .step-option {
+      padding: 8px 18px;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: transparent;
+      color: var(--text);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .step-option:hover,
+    .step-option.selected {
+      background: rgba(0, 255, 135, 0.12);
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .budget-slider {
+      width: 100%;
+      margin: 8px 0 4px;
+      accent-color: var(--green);
+      height: 4px;
+    }
+
+    .budget-val {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 22px;
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    .builder-result {
+      background: var(--bg3);
+      border: 1px solid rgba(0, 255, 135, 0.2);
+      border-radius: 8px;
+      padding: 32px;
+      position: sticky;
+      top: 90px;
+    }
+
+    .result-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--green);
+      margin-bottom: 24px;
+      letter-spacing: 2px;
+    }
+
+    .result-parts {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .result-part {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 14px;
+    }
+
+    .result-part-name {
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .result-part-val {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .result-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0 0;
+    }
+
+    .result-total-label {
+      font-size: 13px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+
+    .result-total-price {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--green);
+    }
+
+    /* ── TORNEIO ── */
+    #torneio {
+      background: var(--bg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .torneio-bg {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center top, rgba(255, 70, 85, 0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .torneio-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .torneio-game-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 70, 85, 0.12);
+      border: 1px solid rgba(255, 70, 85, 0.35);
+      border-radius: 4px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--red);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .countdown-wrap {
+      display: flex;
+      gap: 16px;
+      margin: 32px 0;
+    }
+
+    .countdown-block {
+      background: var(--bg2);
+      border: 1px solid rgba(255, 70, 85, 0.2);
+      border-radius: 6px;
+      padding: 16px 20px;
+      text-align: center;
+      min-width: 72px;
+    }
+
+    .countdown-num {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--red);
+      display: block;
+      line-height: 1;
+    }
+
+    .countdown-label {
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 6px;
+      display: block;
+      font-weight: 600;
+    }
+
+    .prizes-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 28px 0;
+    }
+
+    .prize-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: var(--bg2);
+      border-radius: 6px;
+      padding: 14px 18px;
+      border-left: 3px solid;
+    }
+
+    .prize-1 {
+      border-color: var(--gold);
+    }
+
+    .prize-2 {
+      border-color: #C0C0C0;
+    }
+
+    .prize-3 {
+      border-color: #CD7F32;
+    }
+
+    .prize-pos {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 18px;
+      font-weight: 900;
+      min-width: 32px;
+    }
+
+    .prize-1 .prize-pos {
+      color: var(--gold);
+    }
+
+    .prize-2 .prize-pos {
+      color: #C0C0C0;
+    }
+
+    .prize-3 .prize-pos {
+      color: #CD7F32;
+    }
+
+    .prize-desc {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .prize-val {
+      margin-left: auto;
+      color: var(--green);
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .vagas-bar-wrap {
+      margin: 28px 0;
+    }
+
+    .vagas-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .vagas-label span:last-child {
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    .vagas-bar {
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .vagas-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--green), var(--blue));
+      border-radius: 4px;
+      width: 62%;
+      transition: width 1s ease;
+    }
+
+    .torneio-form {
+      background: var(--bg2);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 36px;
+    }
+
+    .form-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 28px;
+    }
+
+    .form-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .form-input,
+    .form-select {
+      background: var(--bg3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      padding: 12px 16px;
+      color: var(--text);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-input:focus,
+    .form-select:focus {
+      border-color: var(--red);
+    }
+
+    .form-select {
+      cursor: pointer;
+    }
+
+    .form-select option {
+      background: var(--bg3);
+    }
+
+    .form-submit {
+      width: 100%;
+      background: var(--red);
+      color: #fff;
+      border: none;
+      padding: 14px;
+      border-radius: 4px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 8px;
+      text-transform: uppercase;
+    }
+
+    .form-submit:hover {
+      background: #ff2233;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(255, 70, 85, 0.3);
+    }
+
+    .inscritos-preview {
+      margin-top: 20px;
+      padding: 16px;
+      background: var(--bg3);
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .inscritos-title {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .inscritos-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .inscrito-tag {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* ── FEEDBACKS ── */
+    #feedbacks {
+      background: var(--bg2);
+    }
+
+    .feedbacks-header-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .google-rating-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--bg3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 12px 20px;
+      text-decoration: none;
+      transition: border-color 0.2s;
+    }
+
+    .google-rating-badge:hover {
+      border-color: rgba(0, 255, 135, 0.3);
+    }
+
+    .google-logo {
+      font-size: 22px;
+    }
+
+    .google-rating-info {}
+
+    .google-rating-num {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 20px;
+      font-weight: 900;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .google-rating-stars {
+      color: var(--gold);
+      font-size: 13px;
+      letter-spacing: 2px;
+      margin: 2px 0;
+    }
+
+    .google-rating-label {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    .feedbacks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .feedback-card {
+      background: var(--bg3);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 8px;
+      padding: 28px;
+      position: relative;
+    }
+
+    .feedback-quote {
+      font-size: 48px;
+      color: var(--green);
+      opacity: 0.3;
+      line-height: 1;
+      margin-bottom: 8px;
+      font-family: Georgia, serif;
+    }
+
+    .feedback-text {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--muted);
+      margin-bottom: 20px;
+      font-weight: 400;
+    }
+
+    .feedback-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .feedback-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--bg2);
+      border: 2px solid var(--green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--green);
+    }
+
+    .feedback-name {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .feedback-since {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .stars {
+      color: var(--gold);
+      font-size: 13px;
+      margin-bottom: 2px;
+      letter-spacing: 2px;
+    }
+
+    /* ── CONTATO ── */
+    #contato {
+      background: var(--bg);
+    }
+
+    .contato-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .contato-info {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .contato-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .contato-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(0, 255, 135, 0.1);
+      border: 1px solid rgba(0, 255, 135, 0.2);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .contato-label {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .contato-value {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .contato-value a {
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .contato-value a:hover {
+      color: var(--green);
+    }
+
+    .map-embed {
+      margin-top: 8px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(0, 255, 135, 0.15);
+    }
+
+    .map-embed iframe {
+      display: block;
+      width: 100%;
+      height: 220px;
+      border: none;
+      filter: invert(90%) hue-rotate(180deg) saturate(0.8);
+    }
+
+    .social-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+
+    .social-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s;
+      letter-spacing: 1px;
+    }
+
+    .social-btn:hover {
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .contato-form {
+      background: var(--bg2);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 8px;
+      padding: 36px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--bg2);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 40px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-logo {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: 18px;
+      color: var(--green);
+    }
+
+    .footer-logo span {
+      color: var(--text);
+    }
+
+    .footer-copy {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-links a {
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--green);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeDown {
+      from {
+        opacity: 0;
+        transform: translateY(-16px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── WHATSAPP FLOAT ── */
+    .wa-float {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      width: 58px;
+      height: 58px;
+      background: #25D366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      text-decoration: none;
+      box-shadow: 0 4px 24px rgba(37, 211, 102, 0.4);
+      z-index: 999;
+      transition: all 0.2s;
+    }
+
+    .wa-float:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 32px rgba(37, 211, 102, 0.5);
+    }
+
+    .neon-line {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--green), transparent);
+      opacity: 0.3;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero-inner {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .hero-badges {
+        align-items: center;
+      }
+
+      .hero-actions {
+        justify-content: center;
+      }
+
+      .hero-stats {
+        justify-content: center;
+      }
+
+      .hero-sub {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .hero-vitrine {
+        max-width: 520px;
+        margin: 0 auto;
+      }
+
+      .builder-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .builder-result {
+        position: static;
+      }
+
+      .torneio-wrap {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .contato-wrap {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .nav-hamburger {
+        display: flex;
+      }
+
+      .nav-drawer {
+        display: flex;
+      }
+    }
+
+    @media (max-width: 600px) {
+      section {
+        padding: 72px 5%;
+      }
+
+      .hero-title {
+        font-size: 38px;
+      }
+
+      .countdown-wrap {
+        gap: 10px;
+      }
+
+      .countdown-block {
+        min-width: 60px;
+        padding: 12px 14px;
+      }
+
+      .countdown-num {
+        font-size: 26px;
+      }
+
+      .vitrine-mini-cards {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+
+      .vitrine-status-row {
+        grid-template-columns: 1fr;
+      }
+
+      footer {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .footer-links {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav id="mainNav">
+    <a href="#" class="nav-logo">NATHIEL <span>GAMES</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#produtos" data-section="produtos">Produtos</a></li>
+      <li><a href="#servicos" data-section="servicos">Assistência</a></li>
+      <li><a href="#pc-gamer" data-section="pc-gamer">Monte seu PC</a></li>
+      <li><a href="#torneio" data-section="torneio">Torneios</a></li>
+      <li><a href="#contato" class="nav-cta" data-section="contato">Contato</a></li>
+    </ul>
+    <div class="nav-hamburger" id="hamburger" onclick="toggleDrawer()">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- MOBILE DRAWER -->
+  <div class="nav-drawer" id="navDrawer">
+    <a href="#produtos" onclick="closeDrawer()">Produtos</a>
+    <a href="#servicos" onclick="closeDrawer()">Assistência</a>
+    <a href="#pc-gamer" onclick="closeDrawer()">Monte seu PC</a>
+    <a href="#torneio" onclick="closeDrawer()">Torneios</a>
+    <a href="#contato" class="drawer-cta" onclick="closeDrawer()">Contato</a>
+  </div>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-glow2"></div>
+    <div class="hero-inner">
+
+      <!-- LEFT -->
+      <div class="hero-content">
+        <div class="hero-badges">
+          <div class="hero-badge">⚡ Há 20 anos no game — Araranguá SC</div>
+          <a href="https://maps.google.com/?q=Nathiel+Games+Ararangua+SC" target="_blank" class="hero-badge-address">
+            📍 Loja física em Araranguá · Ver no mapa
+          </a>
+        </div>
+        <h1 class="hero-title">
+          <span class="green">NATHIEL</span><br>GAMES
+          <span class="line2">Araranguá joga aqui</span>
+        </h1>
+        <p class="hero-sub">
+          <strong>Jogos, consoles, montagem de PC e assistência técnica</strong> — tudo em um lugar. A loja gamer de confiança de Araranguá há duas décadas.
+        </p>
+        <div class="hero-actions">
+          <a href="#produtos" class="btn-primary">🎮 Ver Produtos</a>
+          <a href="https://api.whatsapp.com/send?phone=5548984739035" class="btn-secondary" target="_blank">💬 WhatsApp</a>
+          <a href="https://maps.google.com/?q=Nathiel+Games+Ararangua+SC" class="btn-map" target="_blank">📍 Como chegar</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-num">+5mil</span>
+            <span class="stat-label">Clientes atendidos</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">5.0★</span>
+            <span class="stat-label">Nota no Google</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">20+</span>
+            <span class="stat-label">Anos de história</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT — VITRINE -->
+      <div class="hero-vitrine">
+
+        <!-- Produto em destaque -->
+        <div class="vitrine-main">
+          <div class="vitrine-badge-tag" id="v-badge">NOVO</div>
+          <div class="vitrine-icon" id="v-icon">🕹️</div>
+          <div class="vitrine-info">
+            <div class="vitrine-cat" id="v-cat">Console</div>
+            <div class="vitrine-name" id="v-name">PlayStation 5</div>
+            <div class="vitrine-price" id="v-price">R$ 4.200</div>
+            <a class="vitrine-wpp" id="v-wpp" href="https://api.whatsapp.com/send?phone=5548984739035&text=Olá! Tenho interesse no PlayStation 5. Disponível?" target="_blank">
+              💬 Pedir no WhatsApp
+            </a>
+          </div>
+        </div>
+
+        <!-- Dots -->
+        <div class="vitrine-dots" id="vitrineDotsWrap"></div>
+
+        <!-- Mini cards categoria -->
+        <div class="vitrine-mini-cards">
+          <div class="mini-card" onclick="setVitrine(0)">
+            <div class="mini-icon">🕹️</div>
+            <div class="mini-label">Consoles</div>
+            <div class="mini-val">PS5 · Xbox · Switch</div>
+          </div>
+          <div class="mini-card" onclick="setVitrine(3)">
+            <div class="mini-icon">🪑</div>
+            <div class="mini-label">Cadeiras</div>
+            <div class="mini-val">Gamer Pro</div>
+          </div>
+          <div class="mini-card" onclick="setVitrine(5)">
+            <div class="mini-icon">🎧</div>
+            <div class="mini-label">Periféricos</div>
+            <div class="mini-val">Headset · Mouse</div>
+          </div>
+        </div>
+
+        <!-- Status -->
+        <div class="vitrine-status-row">
+          <div class="status-card">
+            <div class="status-dot green"></div>
+            <div>
+              <div class="status-text-label">Loja aberta</div>
+              <div class="status-text-val">Seg–Sex 9h–18h30</div>
+            </div>
+          </div>
+          <div class="status-card">
+            <div class="status-dot blue"></div>
+            <div>
+              <div class="status-text-label">Assistência técnica</div>
+              <div class="status-text-val">Console · PC</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ticker -->
+        <div class="vitrine-ticker">
+          <div class="ticker-label-top">⚡ Produtos em destaque</div>
+          <div class="ticker-track">
+            <span class="ticker-item">PS5 <span>R$ 4.200</span></span>
+            <span class="ticker-item">FIFA 25 <span>R$ 100</span></span>
+            <span class="ticker-item">Switch <span>R$ 1.900</span></span>
+            <span class="ticker-item">Xbox Series S <span>R$ 2.800</span></span>
+            <span class="ticker-item">Headset 7.1 <span>R$ 280</span></span>
+            <span class="ticker-item">Cadeira Pro <span>R$ 890</span></span>
+            <span class="ticker-item">Spider-Man 2 <span>R$ 180</span></span>
+            <span class="ticker-item">Mouse Gamer <span>R$ 180</span></span>
+            <!-- duplicate for seamless loop -->
+            <span class="ticker-item">PS5 <span>R$ 4.200</span></span>
+            <span class="ticker-item">FIFA 25 <span>R$ 100</span></span>
+            <span class="ticker-item">Switch <span>R$ 1.900</span></span>
+            <span class="ticker-item">Xbox Series S <span>R$ 2.800</span></span>
+            <span class="ticker-item">Headset 7.1 <span>R$ 280</span></span>
+            <span class="ticker-item">Cadeira Pro <span>R$ 890</span></span>
+            <span class="ticker-item">Spider-Man 2 <span>R$ 180</span></span>
+            <span class="ticker-item">Mouse Gamer <span>R$ 180</span></span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="neon-line"></div>
+
+  <!-- PRODUTOS -->
+  <section id="produtos">
+    <div class="fade-up">
+      <span class="section-tag">// Catálogo</span>
+      <h2 class="section-title">Nossos Produtos</h2>
+      <p class="section-sub">Jogos, consoles, periféricos e muito mais. Consulte disponibilidade e preço direto no WhatsApp.</p>
+    </div>
+
+    <div class="cat-tabs">
+      <button class="cat-tab active" onclick="filterCat('todos',this)">Todos</button>
+      <button class="cat-tab" onclick="filterCat('jogos',this)">🎮 Jogos</button>
+      <button class="cat-tab" onclick="filterCat('console',this)">🕹️ Consoles</button>
+      <button class="cat-tab" onclick="filterCat('cadeira',this)">🪑 Cadeiras</button>
+      <button class="cat-tab" onclick="filterCat('periferico',this)">🖱️ Periféricos</button>
+      <button class="cat-tab" onclick="filterCat('roupa',this)">👕 Roupas</button>
+    </div>
+
+    <div class="products-grid" id="productsGrid"></div>
+  </section>
+
+  <div class="neon-line"></div>
+
+  <!-- SERVIÇOS -->
+  <section id="servicos">
+    <div class="fade-up">
+      <span class="section-tag">// Assistência Técnica</span>
+      <h2 class="section-title">Consertamos Tudo</h2>
+      <p class="section-sub">Serviço especializado com garantia real. Seu console ou PC em mãos seguras há 20 anos.</p>
+    </div>
+
+    <div class="services-grid fade-up">
+      <div class="service-card">
+        <span class="service-icon">🕹️</span>
+        <h3 class="service-name">Manutenção de Console</h3>
+        <p class="service-desc">PS3, PS4, PS5, Xbox, Nintendo Switch. Diagnóstico, troca de pasta térmica, limpeza, reparo de placa.</p>
+        <span class="service-price">→ A partir de R$ 80,00</span>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">💻</span>
+        <h3 class="service-name">Manutenção de PC</h3>
+        <p class="service-desc">Formatação, limpeza, upgrade de componentes, resolução de lentidão, vírus e muito mais.</p>
+        <span class="service-price">→ A partir de R$ 80,00</span>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🌡️</span>
+        <h3 class="service-name">Troca de Pasta Térmica</h3>
+        <p class="service-desc">Equipamento esquentando muito? Troca de pasta e limpeza completa do sistema de refrigeração.</p>
+        <span class="service-price">→ A partir de R$ 50,00</span>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🔧</span>
+        <h3 class="service-name">Reparo de Controles</h3>
+        <p class="service-desc">Analógicos defeituosos, botões travados, vibração, cabo, bateria. Consertamos todo tipo de controle.</p>
+        <span class="service-price">→ A partir de R$ 40,00</span>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top: 48px;">
+      <a href="https://api.whatsapp.com/send?phone=5548984739035&text=Olá, preciso de assistência técnica" class="btn-primary" target="_blank">💬 Agendar Serviço</a>
+    </div>
+  </section>
+
+  <div class="neon-line"></div>
+
+  <!-- PC GAMER BUILDER -->
+  <section id="pc-gamer">
+    <div class="fade-up">
+      <span class="section-tag">// Configurador</span>
+      <h2 class="section-title">Monte seu PC Gamer</h2>
+      <p class="section-sub">Diga o que você precisa e montamos a melhor configuração no seu orçamento. Instalação inclusa.</p>
+    </div>
+
+    <div class="builder-wrap fade-up">
+      <div class="builder-steps">
+        <div class="step-block">
+          <div class="step-label">Passo 01</div>
+          <div class="step-question">Para que você vai usar o PC?</div>
+          <div class="step-options">
+            <button class="step-option selected" onclick="selectOption(this,'uso')">🎮 Jogar</button>
+            <button class="step-option" onclick="selectOption(this,'uso')">🎬 Edição de Vídeo</button>
+            <button class="step-option" onclick="selectOption(this,'uso')">💼 Trabalho/Estudo</button>
+            <button class="step-option" onclick="selectOption(this,'uso')">🎯 Live / Stream</button>
+          </div>
+        </div>
+        <div class="step-block">
+          <div class="step-label">Passo 02</div>
+          <div class="step-question">Qual seu orçamento?</div>
+          <input type="range" class="budget-slider" min="1500" max="15000" step="500" value="3500" id="budgetSlider" oninput="updateBudget(this.value)">
+          <div style="display:flex; justify-content:space-between; margin-top:4px;">
+            <span style="font-size:12px;color:var(--muted);">R$ 1.500</span>
+            <span class="budget-val" id="budgetVal">R$ 3.500</span>
+            <span style="font-size:12px;color:var(--muted);">R$ 15.000</span>
+          </div>
+        </div>
+        <div class="step-block">
+          <div class="step-label">Passo 03</div>
+          <div class="step-question">Preferência de GPU?</div>
+          <div class="step-options">
+            <button class="step-option selected" onclick="selectOption(this,'gpu')">🟢 NVIDIA</button>
+            <button class="step-option" onclick="selectOption(this,'gpu')">🔴 AMD</button>
+            <button class="step-option" onclick="selectOption(this,'gpu')">🤷 Tanto faz</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="builder-result">
+        <div class="result-title">⚡ SUA CONFIGURAÇÃO</div>
+        <div class="result-parts">
+          <div class="result-part"><span class="result-part-name">Processador</span><span class="result-part-val" id="res-cpu">Ryzen 5 5600X</span></div>
+          <div class="result-part"><span class="result-part-name">Placa de Vídeo</span><span class="result-part-val" id="res-gpu">RTX 3060</span></div>
+          <div class="result-part"><span class="result-part-name">Memória RAM</span><span class="result-part-val" id="res-ram">16GB DDR4</span></div>
+          <div class="result-part"><span class="result-part-name">Armazenamento</span><span class="result-part-val" id="res-ssd">SSD 500GB NVMe</span></div>
+          <div class="result-part"><span class="result-part-name">Placa Mãe</span><span class="result-part-val" id="res-mb">B550M Gaming</span></div>
+          <div class="result-part"><span class="result-part-name">Fonte</span><span class="result-part-val" id="res-psu">650W 80+ Bronze</span></div>
+          <div class="result-part"><span class="result-part-name">Gabinete</span><span class="result-part-val" id="res-case">Mid-Tower c/ LED</span></div>
+        </div>
+        <div class="result-total">
+          <span class="result-total-label">Estimativa:</span>
+          <span class="result-total-price" id="res-total">~R$ 3.500</span>
+        </div>
+        <a href="https://api.whatsapp.com/send?phone=5548984739035&text=Quero montar um PC Gamer!" target="_blank" class="btn-primary" style="width:100%;justify-content:center;margin-top:24px;">💬 Quero essa build!</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="neon-line"></div>
+
+  <!-- TORNEIO -->
+  <section id="torneio">
+    <div class="torneio-bg"></div>
+    <div style="position:relative;z-index:1;">
+      <div class="fade-up">
+        <span class="section-tag">// Arena</span>
+        <h2 class="section-title">🏆 Torneio Ativo</h2>
+      </div>
+
+      <div class="torneio-wrap fade-up">
+        <div class="torneio-info">
+          <div class="torneio-game-badge">🎮 FIFA 25 · 1v1</div>
+          <h3 style="font-family:'Orbitron',sans-serif;font-size:28px;font-weight:900;margin-bottom:8px;">CUP NATHIEL<br><span style="color:var(--red);">GAMES #3</span></h3>
+          <p style="color:var(--muted);font-size:15px;line-height:1.6;margin-bottom:8px;font-weight:400;">Torneio presencial na loja. Formato eliminação simples, 32 vagas. Leve seu controle!</p>
+          <p style="font-size:14px;color:var(--muted);"><span style="color:var(--text);font-weight:600;">📅 Data:</span> Em breve &nbsp;·&nbsp; <span style="color:var(--text);font-weight:600;">🕑 Hora:</span> 14h00</p>
+          <div style="margin-top:16px;font-size:14px;color:var(--muted);">
+            <span style="color:var(--text);font-weight:600;">📍 Local:</span> Nathiel Games — Araranguá SC
+          </div>
+
+          <div class="countdown-wrap">
+            <div class="countdown-block"><span class="countdown-num" id="cd-days">--</span><span class="countdown-label">Dias</span></div>
+            <div class="countdown-block"><span class="countdown-num" id="cd-hours">--</span><span class="countdown-label">Horas</span></div>
+            <div class="countdown-block"><span class="countdown-num" id="cd-mins">--</span><span class="countdown-label">Min</span></div>
+            <div class="countdown-block"><span class="countdown-num" id="cd-secs">--</span><span class="countdown-label">Seg</span></div>
+          </div>
+
+          <div class="prizes-list">
+            <div class="prize-item prize-1">
+              <span class="prize-pos">1°</span>
+              <span class="prize-desc">Vale-presente Nathiel Games</span>
+              <span class="prize-val">R$ 200</span>
+            </div>
+            <div class="prize-item prize-2">
+              <span class="prize-pos">2°</span>
+              <span class="prize-desc">Jogo à escolha</span>
+              <span class="prize-val">R$ 100</span>
+            </div>
+            <div class="prize-item prize-3">
+              <span class="prize-pos">3°</span>
+              <span class="prize-desc">Acessório gamer</span>
+              <span class="prize-val">R$ 60</span>
+            </div>
+          </div>
+
+          <div class="vagas-bar-wrap">
+            <div class="vagas-label">
+              <span style="color:var(--muted);">Vagas preenchidas</span>
+              <span>20 / 32</span>
+            </div>
+            <div class="vagas-bar">
+              <div class="vagas-fill" style="width:62.5%"></div>
+            </div>
+            <div style="margin-top:6px;font-size:13px;color:var(--red);font-weight:600;">⚡ 12 vagas restantes — corra!</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="torneio-form">
+            <h3 class="form-title">📝 Inscrição</h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">Nome completo</label>
+                <input type="text" class="form-input" placeholder="Seu nome" id="f-nome">
+              </div>
+              <div class="form-group">
+                <label class="form-label">WhatsApp</label>
+                <input type="text" class="form-input" placeholder="(48) 9 0000-0000" id="f-wpp">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Gamertag / PSN ID</label>
+                <input type="text" class="form-input" placeholder="Seu nick no jogo" id="f-nick">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Plataforma</label>
+                <select class="form-select" id="f-plat">
+                  <option>PlayStation 4</option>
+                  <option>PlayStation 5</option>
+                  <option>Xbox Series</option>
+                </select>
+              </div>
+              <button class="form-submit" onclick="inscrever()">⚔️ QUERO JOGAR!</button>
+            </div>
+          </div>
+
+          <div class="inscritos-preview">
+            <div class="inscritos-title">👾 Inscritos confirmados</div>
+            <div class="inscritos-list" id="inscritosList">
+              <span class="inscrito-tag">KingSlayer99</span>
+              <span class="inscrito-tag">VitorFPS</span>
+              <span class="inscrito-tag">CabraZika</span>
+              <span class="inscrito-tag">ProGamer_SC</span>
+              <span class="inscrito-tag">NathanXGod</span>
+              <span class="inscrito-tag">DiegoUltra</span>
+              <span class="inscrito-tag">JokerBR</span>
+              <span class="inscrito-tag">+13 jogadores</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="neon-line"></div>
+
+  <!-- FEEDBACKS -->
+  <section id="feedbacks">
+    <div class="fade-up">
+      <div class="feedbacks-header-row">
+        <div>
+          <span class="section-tag">// Comunidade</span>
+          <h2 class="section-title" style="margin-bottom:0;">O que dizem nossos clientes</h2>
+        </div>
+        <a href="https://www.google.com/search?q=Nathiel+Games+Ararangua" target="_blank" class="google-rating-badge">
+          <div class="google-logo">🇬</div>
+          <div class="google-rating-info">
+            <div class="google-rating-num">5.0</div>
+            <div class="google-rating-stars">★★★★★</div>
+            <div class="google-rating-label">Ver no Google</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="feedbacks-grid fade-up">
+      <div class="feedback-card">
+        <div class="stars">★★★★★</div>
+        <div class="feedback-quote">"</div>
+        <p class="feedback-text">Muito bom atendimento, todas as vezes que falei com eles foram bem atenciosos. Produto de qualidade, pode confiar na loja!</p>
+        <div class="feedback-author">
+          <div class="feedback-avatar">A</div>
+          <div>
+            <div class="feedback-name">Arthur Marcelino</div>
+            <div class="feedback-since">Cliente desde 2022</div>
+          </div>
+        </div>
+      </div>
+      <div class="feedback-card">
+        <div class="stars">★★★★★</div>
+        <div class="feedback-quote">"</div>
+        <p class="feedback-text">Sou cliente desde 2013, sempre compro todos meus consoles na Nathiel Games. Super indico, sempre passo para ver as novidades!</p>
+        <div class="feedback-author">
+          <div class="feedback-avatar">L</div>
+          <div>
+            <div class="feedback-name">Luiz Paulo Rosa</div>
+            <div class="feedback-since">Cliente desde 2013</div>
+          </div>
+        </div>
+      </div>
+      <div class="feedback-card">
+        <div class="stars">★★★★★</div>
+        <div class="feedback-quote">"</div>
+        <p class="feedback-text">Loja simplesmente maravilhosa, atendimento top. Recomendo a todos que gostam de games em geral!</p>
+        <div class="feedback-author">
+          <div class="feedback-avatar">R</div>
+          <div>
+            <div class="feedback-name">Renan Eloisio</div>
+            <div class="feedback-since">Cliente fiel</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="neon-line"></div>
+
+  <!-- CONTATO -->
+  <section id="contato">
+    <div class="fade-up">
+      <span class="section-tag">// Contato</span>
+      <h2 class="section-title">Vem nos visitar</h2>
+      <p class="section-sub">Estamos em Araranguá — SC. Chama no WhatsApp ou passe na loja!</p>
+    </div>
+
+    <div class="contato-wrap fade-up">
+      <div class="contato-info">
+        <div class="contato-item">
+          <div class="contato-icon">📍</div>
+          <div>
+            <div class="contato-label">Endereço</div>
+            <div class="contato-value">Araranguá — SC</div>
+          </div>
+        </div>
+
+        <!-- MAPA EMBED -->
+        <div class="map-embed">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d55827.42!2d-49.48!3d-28.93!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95218f45b9e58b4d%3A0x1!2sNathiel+Games%2C+Ararangu%C3%A1+-+SC!5e0!3m2!1spt-BR!2sbr!4v1" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+
+        <div class="contato-item">
+          <div class="contato-icon">📞</div>
+          <div>
+            <div class="contato-label">Telefone / WhatsApp</div>
+            <div class="contato-value"><a href="tel:48984739035">(48) 98473-9035</a></div>
+          </div>
+        </div>
+        <div class="contato-item">
+          <div class="contato-icon">🕐</div>
+          <div>
+            <div class="contato-label">Horário de Funcionamento</div>
+            <div class="contato-value">
+              <div style="font-size:14px;">Seg – Sex: <span style="color:var(--green);">9h às 18h30</span></div>
+              <div style="font-size:14px;">Sábado: <span style="color:var(--green);">9h às 13h</span></div>
+              <div style="font-size:14px;color:var(--muted);">Domingo: Fechado</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="contato-label" style="margin-bottom:12px;">Redes sociais</div>
+          <div class="social-row">
+            <a href="https://www.instagram.com/nathielgames/" class="social-btn" target="_blank">📸 Instagram</a>
+            <a href="https://youtube.com/@NathielGames" class="social-btn" target="_blank">▶️ YouTube</a>
+            <a href="https://www.tiktok.com/@nathiel_games" class="social-btn" target="_blank">🎵 TikTok</a>
+            <a href="https://www.facebook.com/nathielgames" class="social-btn" target="_blank">👥 Facebook</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="contato-form">
+        <h3 style="font-family:'Orbitron',sans-serif;font-size:18px;font-weight:700;margin-bottom:24px;">Manda uma mensagem</h3>
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div class="form-group">
+            <label class="form-label">Nome</label>
+            <input type="text" class="form-input" placeholder="Seu nome" id="c-nome">
+          </div>
+          <div class="form-group">
+            <label class="form-label">WhatsApp / Email</label>
+            <input type="text" class="form-input" placeholder="Como retornamos?" id="c-contato">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mensagem</label>
+            <textarea class="form-input" rows="4" placeholder="Dúvida, orçamento, feedback..." style="resize:vertical;" id="c-msg"></textarea>
+          </div>
+          <button class="btn-primary" style="justify-content:center;" onclick="enviarContato()">Enviar pelo WhatsApp</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">NATHIEL <span>GAMES</span></div>
+    <div class="footer-copy">© 2025 Nathiel Games · Araranguá SC · Há 20 anos no game</div>
+    <div class="footer-links">
+      <a href="#hero">Início</a>
+      <a href="#produtos">Produtos</a>
+      <a href="#torneio">Torneios</a>
+      <a href="#contato">Contato</a>
+    </div>
+  </footer>
+
+  <!-- WHATSAPP FLOAT -->
+  <a href="https://api.whatsapp.com/send?phone=5548984739035" class="wa-float" target="_blank" title="Chamar no WhatsApp">💬</a>
+
+  <!-- SUPABASE SDK -->
+  <script src="config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // Initialize Supabase client
+    if (window.SUPABASE_URL && window.SUPABASE_ANON_KEY) {
+      window.supabase = supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+    } else {
+      console.error('Supabase credentials missing.');
+    }
+
+    let products = [];
+
+    // Load products from Supabase
+    async function loadProducts() {
+      try {
+        const { data, error } = await window.supabase
+        .from('produtos')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+        if (error) throw error;
+        products = data;
+      } catch (error) {
+        console.error("Erro ao carregar produtos do Supabase:", error.message);
+      }
+      renderProducts('todos');
+      initVitrine();
+    }
+
+    // Call loadProducts after definition
+    loadProducts();
+
+    // Helper function for rendering product image/emoji
+    function getProductImageHtml(icon, size = '56px') {
+      if (!icon) return `<span style="font-size:${size};">📦</span>`;
+      const isUrl = icon.startsWith('http://') || icon.startsWith('https://') || icon.startsWith('/') || icon.includes('.') || icon.startsWith('data:image');
+      if (isUrl) {
+        return `<img src="${icon}" style="width: 100%; height: 100%; object-fit: contain; padding: 12px;" alt="Foto">`;
+      }
+      return `<span style="font-size:${size}; line-height: 1;">${icon}</span>`;
+    }
+
+    function renderProducts(cat) {
+      const grid = document.getElementById('productsGrid');
+      const filtered = cat === 'todos' ? products : products.filter(p => p.cat === cat);
+      grid.innerHTML = filtered.map(p => `
+    <div class="product-card">
+      <div class="product-img">
+        ${p.badge ? `<div class="product-badge-tag" style="${p.sale ? 'background:var(--red)' : 'background:var(--bg3);border:1px solid var(--green);color:var(--green)'}">${p.badge}</div>` : ''}
+        ${getProductImageHtml(p.icon, '56px')}
+      </div>
+      <div class="product-info">
+        <div class="product-name">${p.name}</div>
+        <div class="product-cat">${p.cat}</div>
+        <div class="product-price-note">${p.link ? 'Disponível na Loja Oficial' : 'Consulte disponibilidade'}</div>
+        <div class="product-price">${p.price}</div>
+        ${p.link ? `
+          <button class="product-buy" onclick="window.open('${p.link}', '_blank')" style="border-color: var(--blue); color: var(--blue);">🛒 Ir para Loja</button>
+        ` : `
+          <button class="product-buy" onclick="buyProduct('${p.name}','${p.price}')">💬 Pedir no WhatsApp</button>
+        `}
+      </div>
+    </div>
+  `).join('');
+    }
+
+    function filterCat(cat, btn) {
+      document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      renderProducts(cat);
+    }
+
+    function buyProduct(name, price) {
+      const msg = encodeURIComponent(`Olá! Tenho interesse no produto: ${name} (${price}). Ainda disponível?`);
+      window.open(`https://api.whatsapp.com/send?phone=5548984739035&text=${msg}`, '_blank');
+    }
+
+    // ── VITRINE ROTATIVA ──
+    const vitrineItems = [
+      { icon: '🕹️', cat: 'Console', name: 'PlayStation 5', price: 'R$ 4.200', badge: 'NOVO', badgeSale: false },
+      { icon: '🎯', cat: 'Console', name: 'Xbox Series S', price: 'R$ 2.800', badge: 'ESTOQUE', badgeSale: false },
+      { icon: '🎰', cat: 'Console', name: 'Nintendo Switch', price: 'R$ 1.900', badge: 'OFERTA', badgeSale: true },
+      { icon: '🪑', cat: 'Cadeira', name: 'Cadeira Gamer Pro', price: 'R$ 890', badge: 'DESTAQUE', badgeSale: false },
+      { icon: '🏎️', cat: 'Cadeira', name: 'Cadeira Racing DX', price: 'R$ 650', badge: 'PROMOÇÃO', badgeSale: true },
+      { icon: '🎧', cat: 'Periférico', name: 'Headset Gamer 7.1', price: 'R$ 280', badge: 'TOP', badgeSale: false },
+      { icon: '🖱️', cat: 'Periférico', name: 'Mouse Gamer 12K', price: 'R$ 180', badge: 'NOVO', badgeSale: false },
+    ];
+
+    let vitrineIdx = 0;
+    let vitrineTimer;
+
+    function initVitrine() {
+      const dotsWrap = document.getElementById('vitrineDotsWrap');
+      dotsWrap.innerHTML = '';
+      vitrineItems.forEach((_, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'v-dot' + (i === 0 ? ' active' : '');
+        btn.onclick = () => { setVitrine(i); resetTimer(); };
+        dotsWrap.appendChild(btn);
+      });
+      setVitrine(0);
+      resetTimer();
+    }
+
+    function setVitrine(i) {
+      vitrineIdx = i;
+      const it = vitrineItems[i];
+      
+      const iconContainer = document.getElementById('v-icon');
+      const isUrl = it.icon.startsWith('http://') || it.icon.startsWith('https://') || it.icon.startsWith('/') || it.icon.includes('.') || it.icon.startsWith('data:image');
+      if (isUrl) {
+        iconContainer.innerHTML = `<img src="${it.icon}" style="width: 70px; height: 70px; object-fit: contain; border-radius: 4px;" alt="Foto">`;
+        iconContainer.style.fontSize = '0';
+      } else {
+        iconContainer.textContent = it.icon;
+        iconContainer.style.fontSize = '60px';
+      }
+
+      document.getElementById('v-cat').textContent = it.cat;
+      document.getElementById('v-name').textContent = it.name;
+      document.getElementById('v-price').textContent = it.price;
+      const badge = document.getElementById('v-badge');
+      badge.textContent = it.badge;
+      badge.style.background = it.badgeSale ? 'var(--red)' : 'rgba(0,255,135,0.15)';
+      badge.style.color = it.badgeSale ? '#fff' : 'var(--green)';
+      
+      const pMatch = products.find(p => p.name === it.name);
+      const wppBtn = document.getElementById('v-wpp');
+      
+      if (pMatch && pMatch.link) {
+        wppBtn.textContent = '🛒 Ir para Loja';
+        wppBtn.href = pMatch.link;
+        wppBtn.style.borderColor = 'var(--blue)';
+        wppBtn.style.color = 'var(--blue)';
+        wppBtn.style.background = 'rgba(0, 198, 255, 0.1)';
+      } else {
+        wppBtn.textContent = '💬 Pedir no WhatsApp';
+        wppBtn.style.borderColor = 'rgba(0, 255, 135, 0.3)';
+        wppBtn.style.color = 'var(--green)';
+        wppBtn.style.background = 'rgba(0, 255, 135, 0.1)';
+        const wppMsg = encodeURIComponent(`Olá! Tenho interesse no produto: ${it.name} (${it.price}). Ainda disponível?`);
+        wppBtn.href = `https://api.whatsapp.com/send?phone=5548984739035&text=${wppMsg}`;
+      }
+      
+      document.querySelectorAll('.v-dot').forEach((d, j) => {
+        d.className = 'v-dot' + (j === i ? ' active' : '');
+      });
+    }
+
+    function resetTimer() {
+      clearInterval(vitrineTimer);
+      vitrineTimer = setInterval(() => setVitrine((vitrineIdx + 1) % vitrineItems.length), 3500);
+    }
+
+    // Load Supabase Products on load
+    loadProducts();
+
+    // ── PC BUILDER ──
+    function selectOption(btn, group) {
+      btn.closest('.step-options').querySelectorAll('.step-option').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      updateBudget(document.getElementById('budgetSlider').value);
+    }
+
+    function updateBudget(val) {
+      document.getElementById('budgetVal').textContent = 'R$ ' + parseInt(val).toLocaleString('pt-BR');
+      document.getElementById('res-total').textContent = '~R$ ' + parseInt(val).toLocaleString('pt-BR');
+      const v = parseInt(val);
+      if (v < 2500) {
+        document.getElementById('res-cpu').textContent = 'Ryzen 5 3600';
+        document.getElementById('res-gpu').textContent = 'RX 6600';
+        document.getElementById('res-ram').textContent = '16GB DDR4';
+        document.getElementById('res-ssd').textContent = 'SSD 240GB';
+        document.getElementById('res-mb').textContent = 'B450M';
+        document.getElementById('res-psu').textContent = '550W Bronze';
+      } else if (v < 5000) {
+        document.getElementById('res-cpu').textContent = 'Ryzen 5 5600X';
+        document.getElementById('res-gpu').textContent = 'RTX 3060';
+        document.getElementById('res-ram').textContent = '16GB DDR4';
+        document.getElementById('res-ssd').textContent = 'SSD 500GB NVMe';
+        document.getElementById('res-mb').textContent = 'B550M Gaming';
+        document.getElementById('res-psu').textContent = '650W Bronze';
+      } else if (v < 8000) {
+        document.getElementById('res-cpu').textContent = 'Ryzen 7 5700X';
+        document.getElementById('res-gpu').textContent = 'RTX 4060 Ti';
+        document.getElementById('res-ram').textContent = '32GB DDR5';
+        document.getElementById('res-ssd').textContent = 'SSD 1TB NVMe';
+        document.getElementById('res-mb').textContent = 'B650M Pro';
+        document.getElementById('res-psu').textContent = '750W Gold';
+      } else {
+        document.getElementById('res-cpu').textContent = 'Ryzen 9 7900X';
+        document.getElementById('res-gpu').textContent = 'RTX 4080';
+        document.getElementById('res-ram').textContent = '32GB DDR5 6000';
+        document.getElementById('res-ssd').textContent = 'SSD 2TB NVMe Gen4';
+        document.getElementById('res-mb').textContent = 'X670E Hero';
+        document.getElementById('res-psu').textContent = '850W Platinum';
+      }
+    }
+
+    // ── COUNTDOWN — próximo torneio ──
+    // Data em breve: deixamos zerado mas com lógica pronta para atualizar
+    const targetDate = new Date('2025-07-19T14:00:00'); // ← atualize para a próxima data
+    function updateCountdown() {
+      const now = new Date();
+      const diff = targetDate - now;
+      if (diff < 0) {
+        ['cd-days', 'cd-hours', 'cd-mins', 'cd-secs'].forEach(id => document.getElementById(id).textContent = '--');
+        return;
+      }
+      document.getElementById('cd-days').textContent = String(Math.floor(diff / 86400000)).padStart(2, '0');
+      document.getElementById('cd-hours').textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2, '0');
+      document.getElementById('cd-mins').textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+      document.getElementById('cd-secs').textContent = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // ── TOURNAMENT FORM ──
+    function inscrever() {
+      const nome = document.getElementById('f-nome').value.trim();
+      const wpp = document.getElementById('f-wpp').value.trim();
+      const nick = document.getElementById('f-nick').value.trim();
+      const plat = document.getElementById('f-plat').value;
+      if (!nome || !wpp || !nick) { alert('Preencha todos os campos!'); return; }
+      const list = document.getElementById('inscritosList');
+      const tag = document.createElement('span');
+      tag.className = 'inscrito-tag';
+      tag.textContent = nick;
+      tag.style.borderColor = 'var(--green)';
+      tag.style.color = 'var(--green)';
+      list.insertBefore(tag, list.lastElementChild);
+      const msg = encodeURIComponent(`*Inscrição — CUP Nathiel Games #3*\n\nNome: ${nome}\nWhatsApp: ${wpp}\nNick/PSN: ${nick}\nPlataforma: ${plat}`);
+      window.open(`https://api.whatsapp.com/send?phone=5548984739035&text=${msg}`, '_blank');
+      document.getElementById('f-nome').value = '';
+      document.getElementById('f-wpp').value = '';
+      document.getElementById('f-nick').value = '';
+    }
+
+    // ── CONTACT FORM ──
+    function enviarContato() {
+      const nome = document.getElementById('c-nome').value.trim();
+      const contato = document.getElementById('c-contato').value.trim();
+      const msg = document.getElementById('c-msg').value.trim();
+      const text = encodeURIComponent(`Olá! Vim pelo site.\n\nNome: ${nome || '(não informado)'}\nContato: ${contato || '(não informado)'}\nMensagem: ${msg || '(não informada)'}`);
+      window.open(`https://api.whatsapp.com/send?phone=5548984739035&text=${text}`, '_blank');
+    }
+
+    // ── NAV ACTIVE SECTION ──
+    const sections = document.querySelectorAll('section[id]');
+    const navAs = document.querySelectorAll('.nav-links a[data-section]');
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navAs.forEach(a => {
+            a.classList.toggle('active', a.dataset.section === entry.target.id);
+          });
+        }
+      });
+    }, { threshold: 0.35 });
+
+    sections.forEach(s => sectionObserver.observe(s));
+
+    // ── MOBILE DRAWER ──
+    function toggleDrawer() {
+      const h = document.getElementById('hamburger');
+      const d = document.getElementById('navDrawer');
+      h.classList.toggle('open');
+      d.classList.toggle('open');
+      document.body.style.overflow = d.classList.contains('open') ? 'hidden' : '';
+    }
+    function closeDrawer() {
+      document.getElementById('hamburger').classList.remove('open');
+      document.getElementById('navDrawer').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // ── SCROLL ANIMATIONS ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  </script>
+</body>
+
+</html>

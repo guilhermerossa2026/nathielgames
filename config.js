@@ -1,0 +1,2 @@
+window.SUPABASE_URL = "https://axlnprjnkydkuelenkje.supabase.co";
+window.SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF4bG5wcmpua3lka3VlbGVua2plIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3ODQzMjcsImV4cCI6MjA5NzM2MDMyN30.ciYXQ6XXyWRoyRSO8PeI9MppMrsvcP-PePqNmAuXG0s";
