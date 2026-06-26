@@ -537,6 +537,9 @@ nav {
   max-height: 480px;
   object-fit: contain;
   animation: floatMascot 4s ease-in-out infinite;
+  mix-blend-mode: screen;
+  mask-image: radial-gradient(circle, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 85%);
+  -webkit-mask-image: radial-gradient(circle, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 85%);
 }
 
 @keyframes floatMascot {
@@ -634,14 +637,34 @@ section {
 
 /* ── SEÇÃO SOBRE (ESTILO PALAVRA DIVIDIDA "MUZILLA") ── */
 #sobre {
+  position: relative;
   background: var(--bg);
+  overflow: hidden;
+}
+
+#sobre::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('assets/setup.png');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.04; /* Fundo transparente sutil */
+  pointer-events: none;
+  z-index: 0;
+  filter: grayscale(1) brightness(0.5);
+}
+
+#sobre > * {
+  position: relative;
+  z-index: 1;
 }
 
 .split-title-container {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 16px;
+  gap: 0; /* Removido o espaçamento para a palavra ficar contínua */
   flex-wrap: wrap;
   margin-bottom: 40px;
   width: 100%;
